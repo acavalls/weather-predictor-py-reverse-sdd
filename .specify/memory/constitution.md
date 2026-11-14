@@ -1,50 +1,92 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  SYNC IMPACT REPORT
+  ==================
+  Versión: (sin ratificar, plantilla vacía) → 1.0.0
+  Principios modificados: ninguno (adopción inicial; los 5 principios se
+  redactan por primera vez a partir del input del negocio)
+  Secciones añadidas:
+    - Principios Fundamentales (5 principios)
+    - Restricciones Adicionales
+    - Flujo de Trabajo de Documentación y Protección
+    - Gobernanza
+  Secciones eliminadas: ninguna
+  TODOs/elementos diferidos:
+    - PRINCIPIO 4: el input original indicaba `node:test` (runner nativo de
+      Node), pero el proyecto es Python (pyproject.toml:
+      `name = "weather-agent"`). Resuelto en revisión: el runner oficial para
+      los tests de caracterización es pytest, ya configurado en
+      `pyproject.toml` y `Makefile` (sin dependencias nuevas, conforme al
+      Principio 4).
+  Próxima revisión de cumplimiento: al inicio del módulo siguiente.
+-->
 
-## Core Principles
+# Constitución del Agente de Predicción Climática
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+## Principios Fundamentales
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### I. El comportamiento actual es sagrado
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+Ningún cambio de comportamiento observable está permitido en esta fase, ni
+siquiera cuando el comportamiento parezca un error. El sistema se documenta y
+protege tal como es; corregirlo pertenece a un módulo posterior.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Evidencia obligatoria
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Toda afirmación sobre lo que el sistema hace DEBE ir acompañada de su
+evidencia, que puede ser: fichero y líneas de código, dato real de la base de
+datos, o testimonio del negocio (con nombre y fecha). Las suposiciones se
+marcan explícitamente como SUPOSICIÓN y se convierten en preguntas.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### III. Los hallazgos no se corrigen, se registran
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+Los bugs, riesgos y rarezas detectados DEBEN registrarse en el registro de
+anomalías con su clasificación correspondiente. Corregirlos es una decisión
+del módulo siguiente, no de esta fase.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### IV. Cero dependencias nuevas y cero refactors
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+No se añade ningún paquete nuevo ni se reorganiza código en esta fase.
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+### V. Español de España
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Todo el contenido producido en esta fase (documentación, constitución,
+registros, tests y comentarios) DEBE estar en español de España, como el
+resto del proyecto y de sus usuarios.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+## Restricciones Adicionales
+
+- Está prohibido añadir dependencias (paquetes, librerías, imágenes) durante
+  esta fase. `requirements.txt` y `pyproject.toml` DEBEN permanecer intactos
+  en cuanto a dependencias.
+- Está prohibido refactorizar: no se renombra, mueve ni reorganiza código
+  fuente. Solo se permite añadir artefactos de documentación y tests de
+  caracterización.
+- Los tests de caracterización se ejecutarán únicamente con pytest (runner ya
+  configurado en `pyproject.toml` y `Makefile`), sin frameworks de testing
+  adicionales.
+
+## Flujo de Trabajo de Documentación y Protección
+
+1. Toda exploración del código DEBE documentar el comportamiento observado
+   con su evidencia (Principio II).
+2. Cada hallazgo (bug, riesgo, rareza) DEBE registrarse en el registro de
+   anomalías con clasificación, sin intentar corregirlo (Principio III).
+3. Las SUPOSICIONES se marcan como tales y se listan como preguntas abiertas
+   hasta disponer de evidencia o testimonio del negocio.
+4. La revisión de cumplimiento constitucional es obligatoria antes de dar por
+   cerrada cualquier entrega de esta fase.
+
+## Gobernanza
+
+- Esta constitución prevalece sobre cualquier otra práctica, convención o
+  instrucción del proyecto durante la fase de documentación y protección.
+- Las enmiendas requieren: documentación del cambio, versión actualizada
+  según versionado semántico y registro en la sección de historial.
+- Versionado semántico: MAJOR para cambios incompatibles de gobernanza o
+  redefinición/eliminación de principios; MINOR para nuevos principios o
+  secciones o ampliación sustancial de la guía; PATCH para aclaraciones y
+  correcciones de redacción sin impacto semántico.
+- Toda revisión o PR DEBE verificar el cumplimiento de estos principios; la
+  complejidad añadida debe justificarse frente a ellos.
+
+**Versión**: 1.0.0 | **Ratificado**: 2026-11-14 | **Última modificación**: 2026-11-14
