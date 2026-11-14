@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "clean-ddd-hexagonal": {
+      "source": "ccheney/robust-skills",
+      "sourceType": "github",
+      "skillPath": "skills/clean-ddd-hexagonal/SKILL.md",
+      "computedHash": "223df951adb9adf655b139221d4a3b68a314f5a0c24c8bc137a754ce9dee5713"
+    },
+    "fastapi-clean-architecture": {
+      "source": "rafaelkamimura/claude-tools",
+      "sourceType": "github",
+      "skillPath": "skills/fastapi-clean-architecture/SKILL.md",
+      "computedHash": "7254d8ffb12e7fac2a082039dd80816d4921989cbc7ccb939b749f6134584fe2"
+    },
+    "fastapi-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/fastapi-expert/SKILL.md",
+      "computedHash": "eb70cfcb3a06badfbdf51262ecb31b868a983963b9d6654e02856752828b312f"
+    }
+  }
+}

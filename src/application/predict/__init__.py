@@ -1,0 +1,1 @@
+"""Predict use case."""
