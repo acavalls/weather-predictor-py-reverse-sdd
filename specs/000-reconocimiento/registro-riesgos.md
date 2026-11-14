@@ -1,0 +1,57 @@
+# Registro de riesgos y deuda técnica — weather-agent
+
+Fase de reconocimiento. Registro de riesgos **visibles** e **inspeccionables
+en el código o el entorno**, sin proponer soluciones ni corregir nada
+(constitución, Principios I y III). Cada riesgo lleva evidencia
+`fichero:línea` (Principio II).
+
+Ordenación: impacto de negocio × probabilidad, de mayor a menor.
+
+---
+
+| ID | Descripción | Evidencia | Impacto de negocio | Probabilidad |
+|---|---|---|---|---|
+| **R1** | Credenciales de base de datos por defecto hardcodeadas (`weather`/`weather`) tanto en el compose como en la configuración por defecto de la aplicación. | `docker-compose.yml:6-8`; `settings.py:9`; `scripts/ingest_knowledge.py:351-354` | Si el puerto 5432 queda expuesto, cualquiera puede leer/escribir la base de datos del agente. | **Alta** (basta exponer el puerto; es el valor por defecto) |
+| **R2** | Ningún endpoint tiene autenticación ni autorización, y los errores 500 devuelven al cliente el texto de la excepción interna (incluye errores de BD y del LLM). | `chat.py:79-84` (`detail=str(exc)`); `predict.py:90-99` sin manejador genérico; no hay `Security`/API key en ninguna ruta (`routes/` completo); `main.py:23-30` sin middleware de auth | Cualquiera con acceso de red puede consumir el servicio y ver mensajes de error internos (fuga de información sobre infraestructura). | **Alta** (ocurre en cada error interno; `make dev` escucha en `0.0.0.0`, `Makefile:9`) |
+| **R3** | La semántica de los "lags" difiere entre entrenamiento e inferencia: en entrenamiento el lag de horizonte h es el valor registrado h filas antes (`shift(h)`), en inferencia el lag h se rellena con el valor **actual** para todos los horizontes. El comentario promete que coincide con el entrenamiento. | `scripts/train_model.py:100` (`shift(h)`); `feature_extractor.py:62-77` ("current conditions used as lag"); comentario `feature_extractor.py:21` ("This matches the feature engineering in scripts/train_model.py") | Las predicciones del modelo se generan con una distribución de entrada distinta a la del entrenamiento: calidad de predicción degradada de forma sistemática. | **Media** (depende de cuánto pesen los lags; es estructural, no puntual) |
+| **R4** | Dependencias usadas en runtime pero no declaradas en `requirements.txt`: `joblib`, `tqdm`, `asyncpg`, `alembic`. | imports: `local_predictor.py:12`, `train_model.py:20,28`; URL asyncpg: `settings.py:9`; alembic: `Makefile:35-39`; `requirements.txt:1-33` sin ninguna de ellas | Una instalación limpia desde `requirements.txt` puede fallar al cargar el modelo o conectar a la BD (funciona hoy por dependencias transitivas). | **Media** (se manifiesta al recrear el entorno) |
+| **R5** | Python 3.8.10 en fin de vida (EOL) y dependencias sin fijar (`>=` en todo `requirements.txt`): builds no reproducibles y sin parches de seguridad garantizados. | `venv/bin/python --version` → 3.8.10; bytecode `cpython-38` en `alembic/versions/__pycache__/`; `requirements.txt:1-33` solo `>=`; `pyproject.toml:60,66` anclan py38 | Vulnerabilidades sin parche e instalaciones irreproducibles; versiones futuras de las librerías pueden romper el servicio. | **Media** |
+| **R6** | La ingesta de conocimiento hace `DELETE FROM knowledge_base` con commit inmediato y luego inserta los ~23 documentos en otra transacción: si la inserción falla a medias, la base de conocimiento queda **vacía** (el reset ya está confirmado). | `scripts/ingest_knowledge.py:412-419` (DELETE + `conn.commit()`), `:426-438` (INSERTs + commit final único) | Un fallo durante la recarga del RAG deja al agente sin contexto meteorológico hasta nueva ingesta manual. | **Media** (ocurre con cualquier error de BD/conexión durante el insert) |
+| **R7** | Condición de carrera en la carga perezosa del modelo: dos peticiones concurrentes que llegan antes de la primera carga completada ejecutan ambas `load_model` (`if self._model is None` → `await`); además `AskAgentHandler` y `PredictHandler` mantienen cada uno su propia copia del modelo en memoria. | `ask_agent/handler.py:64-68`; `predict/handler.py:44-48`; dos singletons independientes con `_model` propio: `di.py:72-90`; `joblib.load` bloqueante: `local_predictor.py:66` | Doble consumo de memoria (dos pipelines de ~3,6 MB expandidos) y peticiones iniciales más lentas; sin corrupción. | **Media** (primer arranque o tras reinicio con tráfico concurrente) |
+| **R8** | Horizontes de predicción sin validar contra el modelo: la API acepta cualquier entero (`horizons: List[int]`), el predictor filtra los que no conoce y, si el resultado queda vacío, explota con un `ValueError` genérico devuelto como 400. | `predict.py:32-35` (sin límites); `local_predictor.py:223-224` (filtro); `ml/value_objects/__init__.py:126` (`ValueError`); `predict.py:96-99` (400) | Un cliente con horizontes no soportados recibe un 400 con mensaje técnico ("Prediction result must contain at least one prediction") en lugar de un error de contrato claro. | **Media** (cualquier llamada con horizonte fuera de 6/12/24/48/72/168) |
+| **R9** | Se registra en los logs (nivel INFO) el prompt completo enviado al LLM, incluido el texto del usuario y los documentos recuperados. | `ask_agent/handler.py:127` (`Full prompt:\n%s`), `:170` (weather summary), `:196-202` (contenido RAG) | El contenido de las conversaciones de los usuarios queda en los logs del servicio (privacidad / retención de datos). | **Media** (en cada petición de chat) |
+| **R10** | Identidad del modelo "casera": la versión es un MD5 truncado del binario y la fecha de entrenamiento es el `mtime` del fichero, no un dato del artefacto. | `local_predictor.py:153-157` (MD5), `:159-163` (mtime) | Copiar o tocar `model.pkl` cambia la "versión" y la fecha reportadas a negocio sin que el modelo haya cambiado realmente (o viceversa). | **Baja** |
+| **R11** | Acoplamiento binario del modelo: el entrenamiento pickla `MultiOutputRegressorWithProgress` bajo `__main__` y el predictor reescribe `sys.modules["__main__"]` al importar para poder deserializar. | `train_model.py:26` (import explícito), `local_predictor.py:21-31` (hack `__main__`), `model_wrapper.py:5-8` ("MUST remain importable") | Mover/renombrar la clase o cambiar el modo de ejecución del entrenamiento inutiliza `model.pkl` (el servicio no arranca las predicciones). | **Media** (cualquier cambio en el wrapper) |
+| **R12** | Interpolación de nombre de tabla en SQL crudo (`f"""FROM {self._table_name}"""`): hoy el valor es fijo, pero el patrón admite inyección si el parámetro se externaliza algún día. | `knowledge_base_adapter.py:72-78` (`table_name` en constructor `:27-31`, cableado fijo en `di.py:55-58`) | Riesgo latente de inyección SQL si la configuración de la tabla se vuelve dinámica. | **Baja** (parámetro hoy fijo y no expuesto) |
+| **R13** | `db-sync` (Makefile) crea las tablas con `create_all` fuera de Alembic: segundo mecanismo de esquema que puede desincronizarse de las migraciones. | `Makefile:41-53` (`create_all`); migración única `alembic/versions/821f93690b12_...py:20-24`; `init.sql:4-33` (tercera fuente de esquema) | Tres fuentes de verdad del esquema (`init.sql`, Alembic, `create_all`): entornos con esquemas divergentes y fallos de consulta difíciles de diagnosticar. | **Baja** (solo si alguien usa `db-sync` en vez de migraciones) |
+| **R14** | La cabecera `x-opencode-session` usa un único UUID por instancia del proveedor LLM: todas las conversaciones de todos los usuarios comparten el mismo identificador de sesión ante el servicio externo. | `opencode_go_llm.py:31-44` (UUID por instancia, no por petición; singleton en `di.py:64-69`) | Posible correlación/agrupación de usuarios por el proveedor externo; comportamiento del LLM dependiente de la sesión desconocido. | **Baja** |
+| **R15** | Puntuación de similitud sin acotar antes de validar: `1 - (embedding <=> ...)::float` puede superar 1.0 por redondeo o ser negativa con vectores no normalizados, y `RetrievedDocument` valida [0, 1] en `__post_init__` → `ValueError` a mitad de petición (400). | `knowledge_base_adapter.py:74` (cálculo), `:95` (conversión a float), `retrieved_document.py:46-49` (validación), `chat.py:73-78` (400) | Una búsqueda con puntuación fuera de rango convierte una consulta válida en error 400 intermitente. | **Baja** (el modelo de embeddings normaliza; solo redondeos extremos) |
+| **R16** | Docstrings de puertos prometen implementaciones que no existen: "MeteostatAdapter, MockWeatherProvider" en el puerto de tiempo, "RemoteEmbedder", "RemotePredictor", "CachedFeatureExtractor", "PgVectorAdapter/ChromaDBAdapter/InMemoryVectorStore" (la implementación real se llama `KnowledgeBaseAdapter`). | `weather/repository/__init__.py:69`; `agent/repository/embedder.py:10`; `agent/repository/vector_store.py:12`; `ml/repository/__init__.py:15,67` | Inducción a error de cualquier desarrollador/IA que extienda el sistema confiando en los comentarios: el mapa de implementaciones reales es otro. | **Alta** (confusión documental garantizada; impacto bajo) |
+| **R17** | Requisitos de tests declarados pero inexistentes, con versiones contradictorias entre `requirements.txt` (pytest>=7.4, pytest-asyncio>=0.21) y `pyproject.toml` (pytest>=8.3, pytest-asyncio>=0.24), y `respx` sin uso. | `requirements.txt:28-33`; `pyproject.toml:29-32`; sin directorio `tests/` (mapa del sistema §4.14) | La suite de caracterización no puede arrancar tal cual y hay dos fuentes de versión en desacuerdo. | **Alta** (bloquea la propia fase actual de tests) |
+| **R18** | `echo=settings.debug` activa el log de todas las SQL si `DEBUG=true`: junto con R9 amplía la superficie de datos personales en logs. | `session.py:21`; `settings.py:16` | Con debug activado, consultas y datos de BD completos van al log. | **Baja** (requiere flag manual) |
+| **R19** | SUPOSICIÓN (no verificada offline): versiones antiguas del stack ML (scikit-learn 1.3.2, pandas 2.0.3, NumPy 1.24.4 sobre Python 3.8 EOL) pueden tener avisos de seguridad conocidos sin revisar. | `venv/bin/pip list` (2026-11-14); `requirements.txt:6-9` | Exposición a CVEs ya publicados en dependencias del núcleo predictivo. | **Media** (requiere auditoría `pip-audit`/equivalente para confirmar; pendiente de testimonio/evidencia externa) |
+
+---
+
+## Notas de registro
+
+- R19 es una **SUPOSICIÓN** por imposibilidad de consulta externa en esta
+  fase; se convierte en pregunta: *¿quién y cuándo audita las dependencias
+  instaladas?* (nombre y fecha requeridos).
+- Los riesgos ya registrados como anomalías en `mapa-sistema.md` (§4) no se
+  duplican aquí salvo que tengan dimensión de riesgo operativo añadida
+  (R3/R11 profundizan hallazgos previos con el ángulo de impacto).
+- Ningún riesgo ha sido corregido ni mitigado en esta fase (Principio III).
+
+## Preguntas abiertas (SUPOSICIÓN → pregunta)
+
+- **SUPOSICIÓN**: el servicio se despliega en una red de confianza y por eso
+  no hay autenticación (R2). *¿Es así? Requiere testimonio del negocio
+  (nombre y fecha).*
+- **SUPOSICIÓN**: la retención de logs con contenido de usuario (R9) no está
+  sujeta a ninguna política de privacidad conocida. *¿Existe política
+  aplicable?*
+- **SUPOSICIÓN**: `data/historical_weather.csv` es completo por ciudad y hora
+  (263.040 filas, `data/historical_weather.csv`), condición de la que depende
+  la corrección de los `shift(h)` del entrenamiento (R3). *¿Se ha validado la
+  continuidad horaria del dataset?*
