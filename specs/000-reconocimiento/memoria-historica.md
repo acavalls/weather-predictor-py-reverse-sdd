@@ -89,3 +89,17 @@ fecha): H1-H12, W1-W4, A1-A12. Las tres de mayor prioridad por su impacto en
 la fase actual: **H2/H4** (procedencia y reproducibilidad de `model.pkl`),
 **H3** (contrato con el proveedor LLM) y **A2/A3** (destino de las tablas
 sin uso: requisito pendiente o descartado).
+
+---
+
+## 6. Entradas añadidas tras la ronda de entrevista (acta 2026-11-14)
+
+Nuevos hechos revelados por el negocio que no constaban en comentarios ni
+documentación previa. Testigo NEGOCIO: `acta-entrevista-negocio.md`
+(entrevista **simulada**, respondente sin nombre real, 2026-11-14;
+ratificación real pendiente).
+
+| # | Fecha aprox. | Qué pasó / qué se decidió | Implicados (inferidos) | Evidencia | Pregunta para el negocio |
+|---|---|---|---|---|---|
+| H13 | 2026-11-14 (declarado) | Proceso manual revelado: existe (o debe existir) una **checklist de despliegue** que obliga a sobreescribir las credenciales por defecto `weather`/`weather` antes de producir; el negocio lo declara condición. | Responsable de TI/infraestructura | acta P6 (simulada); CÓDIGO: `docker-compose.yml:6-8`, `settings.py:9` | ¿La checklist existe por escrito? ¿Quién la ejecuta y quién la audita? |
+| H14 | 2026-11-14 (declarado) | Decisión de negocio revelada: **España es el mercado prioritario**, Madrid la ciudad de referencia y las consultas en inglés son secundarias; el dataset actual es global y no lo refleja (→ anomalía A-41). | Responsable del producto | acta P8 (simulada); CÓDIGO: `download_historical.py:22-34`, `ask_agent/handler.py:83-93` | ¿Desde cuándo rige esa prioridad de mercado? ¿Hay documento estratégico que la respalde? |

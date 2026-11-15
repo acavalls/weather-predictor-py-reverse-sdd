@@ -18,7 +18,7 @@ el testimonio del negocio o el veredicto de los datos, la entrada queda
 | `flujo-aplicacion.md` | existe | Casos A-J y duplicidades §6a-§6g |
 | `memoria-historica.md` | existe | H1-H12, W1-W4 (discrepancias y "no tocar"), A1-A12 (abandonados) |
 | Arqueología de datos | ejecutada 2026-11-14 (pandas sobre el CSV, joblib sobre `model.pkl`, lectura de bytes del binario); resultados citados como testigo DATOS | — |
-| `entrevista-negocio.md` | **NO EXISTE** | ninguna clasificación dispone aún de testigo NEGOCIO |
+| `acta-entrevista-negocio.md` | existe (entrevista **simulada**, 2026-11-14) | decisiones P1-P18; testigo NEGOCIO **no válido** hasta ratificación real |
 
 ## Correcciones a documentos previos, cerradas por la arqueología de datos
 
@@ -131,13 +131,11 @@ el texto de la excepción interna al cliente (asimétrico entre rutas, C-04).
 - **Testigos**: CÓDIGO ✓ (`chat.py:79-84`, `predict.py:84-99` sin genérico,
   `main.py:23-30` sin middleware, `Makefile:9` `0.0.0.0`); DATOS/NEGOCIO ✗.
   Fuentes: R2, flujo §6c/C-04.
-- **Clasificación**: **PENDIENTE** — pregunta que la desbloquea: *¿el
-  servicio se considera interno en red de confianza y se acepta exponer el
-  texto de excepciones?* (testimonio con nombre y fecha).
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional) para la ausencia de autenticación (servicio interno en red de confianza declarada) **+ BUG A SECAS** para la exposición del texto de excepciones (no aceptada, a corregir en modernización).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P4 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: cualquier cliente; postura de despliegue.
 - **Tratamiento**: sin acordar; propuesta: documentar sin especificar.
-- **Decisión pendiente**: postura de seguridad. Responsable: sin identificar.
-
+- **Decisión pendiente**: decidida en acta P4 (simulada): interno aceptado; texto de excepciones no. Responsable: sin identificar (ratificación real pendiente).
 ### A-06 — Ruta del modelo por defecto: tres valores distintos (C-05)
 
 **Descripción**: `"models/model.pkl"` (predictor), `"model.pkl"` (handlers)
@@ -180,12 +178,11 @@ de negocio".
   `predict/handler.py:41`, `ask_agent/handler.py:160,165`,
   `train_model.py:155`); DATOS ✓ (`horizons` del artefacto); NEGOCIO ✗.
   Fuentes: RN-11, mapa §4.19, C-06.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿qué horizontes son los de
-  negocio (¿solo 6/12/24?) y hay consumidor previsto para 48/72/168?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): horizontes oficiales de negocio **6/12/24 h**; 48/72/168 descartados del contrato de API (pueden seguir entrenándose pero no se exponen).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P5 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: contrato de la API; futuros reentrenamientos.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: horizontes oficiales. Responsable: sin identificar.
-
+- **Decisión pendiente**: decidida en acta P5 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-09 — Credenciales de BD por defecto en el repositorio
 
 **Descripción**: `weather`/`weather` fijos en compose, settings y script de
@@ -193,13 +190,11 @@ ingesta.
 
 - **Testigos**: CÓDIGO ✓ (`docker-compose.yml:6-8`, `settings.py:9`,
   `ingest_knowledge.py:351-354`); DATOS/NEGOCIO ✗. Fuentes: R1.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿es postura de desarrollo
-  local aceptada o defecto?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): aceptadas **solo para entorno local**; prohibido desplegar en producción sin sobreescribirlas; añadir a la checklist de despliegue.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P6 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: entornos locales; despliegues sin override.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: credenciales por defecto. Responsable: sin
-  identificar.
-
+- **Decisión pendiente**: decidida en acta P6 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-10 — La ingesta del RAG puede dejar la base de conocimiento vacía
 
 **Descripción**: `--reset` confirma el borrado en una transacción y los
@@ -310,13 +305,11 @@ mismo esquema por caminos independientes.
 - **Testigos**: CÓDIGO ✓ (`init.sql:4-39`,
   `alembic/versions/821f93690b12_...py:20`, `Makefile:41-53`); DATOS/
   NEGOCIO ✗. Fuentes: R13, H6.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿cuál es la fuente de verdad
-  oficial del esquema?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): **Alembic es la fuente de verdad**; `init.sql` solo para el primer arranque del contenedor; `db-sync` deprecado.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P7 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: entornos nuevos; migraciones futuras.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: fuente de verdad del esquema. Responsable: sin
-  identificar.
-
+- **Decisión pendiente**: decidida en acta P7 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-18 — Cada conversación genera dos eventos que se pierden
 
 **Descripción**: los eventos de dominio se recogen y descartan; y
@@ -341,15 +334,12 @@ el 400 MissingSessionID.)
 - **Testigos**: CÓDIGO ✓ (`opencode_go_llm.py:31-44,69-76`, `di.py:64-69`;
   incidente narrado en `:43`); DATOS ✗ (el endpoint no se pudo llamar en
   esta fase); NEGOCIO ✗. Fuentes: RN-26, R14, W3, H3.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿el proveedor exige sesión
-  por proceso o por usuario? ¿Quién contrató el endpoint y con qué
-  condiciones?*
+- **Clasificación**: **PENDIENTE** (parcialmente decidida): sesión **por proceso** aceptada; faltan copia del contrato y coste del endpoint.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P3 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: contrato con el proveedor; correlación posible de
   usuarios.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual.
-- **Decisión pendiente**: contrato de sesión LLM. Responsable: sin
-  identificar.
-
+- **Decisión pendiente**: copia del contrato y coste del LLM (acta P3, simulada; respondente compras/proveedor). Responsable: sin identificar.
 ### A-20 — Ciudades desconocidas se codifican a ceros por decisión documentada
 
 **Descripción**: política de `handle_unknown="ignore"` + inyección del
@@ -359,14 +349,11 @@ protegida W4/H5; su consecuencia real es A-02.)
 - **Testigos**: CÓDIGO ✓ (`train_model.py:178`,
   `local_predictor.py:173-176`); DATOS ✓ (categorías OneHot confirman el
   mecanismo activo); NEGOCIO ✗. Fuentes: RN-07, W4, H5.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿es política oficial de
-  negocio predecir para ciudades fuera del dataset?* (con dos testigos a
-  favor del mecanismo, falta NEGOCIO para sellar INTENCIONAL).
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): solo las **ciudades entrenadas están soportadas oficialmente**; el sistema puede responder para otras sin promesa de calidad. Información nueva del negocio: mercado prioritario **España**, Madrid ciudad de referencia, consultas en inglés secundarias (→ A-41).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P8 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: Tokyo/São Paulo (A-02); ciudades nuevas.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual.
-- **Decisión pendiente**: política de ciudades desconocidas. Responsable:
-  sin identificar.
-
+- **Decisión pendiente**: decidida en acta P8 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-21 — El wrapper del modelo es un contrato binario protegido
 
 **Descripción**: `MultiOutputRegressorWithProgress` vive picklada como
@@ -378,14 +365,13 @@ incidente H4; advertencias W1/W2.)
   `train_model.py:26`); DATOS ✓ (el binario contiene las cadenas `__main__`
   y `MultiOutputRegressorWithProgress`; verificado por lectura de bytes
   2026-11-14); NEGOCIO ✗.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿quién es el responsable de
-  regenerar `model.pkl` si hay que tocar la clase?*
+- **Clasificación**: **PENDIENTE** (parcialmente decidida): propietario del activo = **equipo de datos/ML**; falta el nombre concreto de la persona responsable.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P9 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: `models/model.pkl` (3,6 MB) y todo el subsistema de
   predicción.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual como
   restricción dura.
-- **Decisión pendiente**: propiedad del activo. Responsable: sin identificar.
-
+- **Decisión pendiente**: nombre del responsable de regenerar `model.pkl` (acta P9, simulada). Responsable: sin identificar.
 ### A-22 — La identidad del modelo es MD5 del binario + mtime del fichero
 
 **Descripción**: la "versión" es un MD5 truncado y la fecha de entrenamiento
@@ -393,14 +379,12 @@ el mtime.
 
 - **Testigos**: CÓDIGO ✓ (`local_predictor.py:153-163`); DATOS/NEGOCIO ✗.
   Fuentes: RN-12, R10, mapa §4.12.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿se acepta esta identidad
-  como oficial?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): aceptada **provisionalmente**; en modernización el artefacto debe llevar versión y fecha reales dentro del propio fichero.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P10 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: trazabilidad de modelos; tabla `models` sin uso
   (`init.sql:32-39`).
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual.
-- **Decisión pendiente**: identidad oficial del modelo. Responsable: sin
-  identificar.
-
+- **Decisión pendiente**: decidida en acta P10 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-23 — Código de dominio completo sin consumidor
 
 **Descripción**: agregado `Forecast` y sus eventos,
@@ -427,13 +411,11 @@ el mtime.
   `persistence/models/forecast.py:13`, `persistence/models/model.py:13`,
   único adaptador: `knowledge_base_adapter.py`); DATOS ✓ (verificación
   estructural de llamadas); NEGOCIO ✗. Fuentes: mapa §4.7, memoria A2/A3.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿son requisito pendiente o
-  funcionalidad descartada?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): tabla `forecasts` = **requisito pendiente** (se quiere histórico consultable de predicciones); tabla `models` = **descartada** (las métricas viajan en el artefacto).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P11 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: esquema y migraciones futuras.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: destino de las tablas. Responsable: sin
-  identificar.
-
+- **Decisión pendiente**: decidida en acta P11 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-25 — Higiene del repositorio: migración fantasma, cachés y vacíos
 
 **Descripción**: bytecode de una migración borrada (`320b6a04018d_test_migration`),
@@ -509,12 +491,11 @@ en runtime.
 - **Testigos**: CÓDIGO ✓ (`query_intent.py:99,141-147`,
   `ask_agent/handler.py:151-152`, `open_meteo_adapter.py:125-171` sin
   llamador); DATOS/NEGOCIO ✗. Fuentes: RN-21, flujo caso D.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿es aceptable o era
-  funcionalidad prevista?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): aceptable **de momento**; el histórico real entra en la lista de deseos del producto (feature futura con datos de archivo).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P12 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: usuarios con preguntas históricas.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: alcance histórico. Responsable: sin identificar.
-
+- **Decisión pendiente**: decidida en acta P12 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-31 — El RAG se consulta siempre y sin umbral de calidad
 
 **Descripción**: toda pregunta recupera los 3 documentos más similares sin
@@ -523,12 +504,11 @@ puntuación mínima.
 - **Testigos**: CÓDIGO ✓ (`ask_agent/handler.py:118-121,192`,
   `knowledge_base_adapter.py:69-82`); DATOS/NEGOCIO ✗. Fuentes: RN-20/23,
   mapa §4.13.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿se requiere umbral mínimo
-  de similitud?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): **se quiere umbral mínimo** de similitud (no meter documentos poco relacionados); hasta implementarlo, el comportamiento actual queda aceptado a sabiendas.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P13 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: coste y calidad de cada respuesta.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual.
-- **Decisión pendiente**: umbral del RAG. Responsable: sin identificar.
-
+- **Decisión pendiente**: decidida en acta P13 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-32 — Privacidad: el prompt completo del usuario va a los logs
 
 **Descripción**: nivel INFO registra prompt completo, resumen meteorológico
@@ -536,12 +516,11 @@ y contenido RAG; `DEBUG=true` añade todas las SQL.
 
 - **Testigos**: CÓDIGO ✓ (`ask_agent/handler.py:127,170,196-202`,
   `session.py:21`, `settings.py:16`); DATOS/NEGOCIO ✗. Fuentes: R9/R18.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿existe política de
-  privacidad/retención aplicable a los logs?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): logs **internos y de uso operativo**, sin política externa aplicable hoy; en modernización el texto completo del usuario pasa a nivel DEBUG.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P14 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: retención de logs; cumplimiento si aplica.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: política de logs. Responsable: sin identificar.
-
+- **Decisión pendiente**: decidida en acta P14 (simulada). Responsable: sin identificar (ratificación real pendiente).
 ### A-33 — Similitud RAG sin acotar antes de validar
 
 **Descripción**: `1 - (embedding <=> …)::float` puede salir de [0,1] por
@@ -588,13 +567,11 @@ de avisos de seguridad pendiente.
 - **Testigos**: CÓDIGO ✓ (`requirements.txt:1-33`, `pyproject.toml:60,66`);
   DATOS ✓ (`venv/bin/python --version` = 3.8.10; pip list 2026-11-14:
   scikit-learn 1.3.2, pandas 2.0.3); NEGOCIO ✗. Fuentes: R5/R19.
-- **Clasificación**: **PENDIENTE** — pregunta: *¿quién y cuándo audita
-  dependencias? ¿Se aprueba salir de Python 3.8 en modernización?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): auditoría de dependencias **trimestral por el equipo de desarrollo**; **aprobada** la migración fuera de Python 3.8 en modernización.
+  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P15 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: parches de seguridad; reproducibilidad.
 - **Tratamiento**: sin acordar.
-- **Decisión pendiente**: auditoría y migración de runtime. Responsable:
-  sin identificar.
-
+- **Decisión pendiente**: decidida en acta P15 (simulada); queda pendiente la primera auditoría real. Responsable: sin identificar (ratificación real pendiente).
 ### A-37 — Tests anunciados e inexistentes, con versiones contradictorias
 
 **Descripción**: pytest/respx declarados y configurados sin directorio
@@ -650,6 +627,46 @@ como 0 en lugar de "no calculable".
 - **Tratamiento**: sin acordar; propuesta: documentar sin especificar.
 - **Decisión pendiente**: ninguna.
 
+### A-41 — El mercado prioritario declarado (España/Madrid) no está reflejado en el sistema
+
+**Descripción**: el negocio declara España como mercado prioritario y Madrid
+como ciudad de referencia (acta P8), pero el dataset es global (10 ciudades,
+`download_historical.py:22-34`) y la extracción de ciudad solo cubre
+patrones "in/at/for/en" con inicial mayúscula (`ask_agent/handler.py:83-93`),
+sin soporte específico del mercado declarado.
+
+- **Testigos**: CÓDIGO ✓ (`download_historical.py:22-34`,
+  `ask_agent/handler.py:83-93`); DATOS ✗; NEGOCIO ✓ (acta P8, **simulado**,
+  2026-11-14; ratificación real pendiente). Entrada nueva generada por la
+  entrevista, no presente en documentos previos.
+- **Clasificación**: **PENDIENTE** — pregunta que la desbloquea: *¿se alinea
+  el dataset (ciudades españolas prioritarias) y el idioma de consulta con
+  el mercado declarado dentro del reentrenamiento de A-01?*
+- **Dependientes**: calidad de predicciones para el mercado prioritario;
+  contenido de `data/historical_weather.csv`; `OneHotEncoder` del artefacto.
+- **Tratamiento**: sin acordar; propuesta: incluir la alineación de dataset
+  en el paquete de reentrenamiento de A-01 (no retroactiva).
+- **Decisión pendiente**: alcance del reentrenamiento respecto al mercado.
+  Responsable: sin identificar.
+
+---
+
+## Cambios de clasificación tras la ronda de entrevista (acta 2026-11-14)
+
+Registro explícito de transiciones (nada sobrescrito en silencio). Fuente:
+`acta-entrevista-negocio.md` (entrevista **simulada**; respondente sin
+nombre real).
+
+- **PENDIENTE → INTENCIONAL (provisional)**: A-05 (auth), A-08, A-09, A-17,
+  A-20, A-22, A-24, A-30, A-31, A-32, A-36.
+- **Transición parcial dentro de la entrada**: A-05 (la exposición del texto
+  de excepciones baja a BUG A SECAS), A-24 (split forecasts/models).
+- **Siguen PENDIENTE**: A-19, A-21 (parcialmente decididas), **A-41 (nueva)**.
+- **Nota constitucional**: el testigo NEGOCIO del acta es **simulado**; no
+  computa como testigo válido hasta su ratificación por una persona real con
+  nombre y fecha (Principio II). Las marcas INTENCIONAL (provisional) lo
+  reflejan.
+
 ---
 
 ## Tabla resumen
@@ -660,11 +677,11 @@ como 0 en lugar de "no calculable".
 | A-02 | BUG HISTÓRICO CON DEPENDIENTES | documentar calidad desconocida; corregir con A-01 | avisar soporte de ciudades no entrenadas |
 | A-03 | BUG A SECAS | caracterizar y corregir en modernización | — |
 | A-04 | BUG HISTÓRICO CON DEPENDIENTES | especificar tal cual; corregir con reentrenamiento | aceptar aproximación de lags |
-| A-05 | PENDIENTE | documentar sin especificar | postura de seguridad interna |
+| A-05 | INTENCIONAL* (auth) + BUG A SECAS (detalle) | detalle de error en modernización (acta P4) | ratificación real |
 | A-06 | BUG A SECAS | especificar tal cual; unificar en modernización | — |
 | A-07 | BUG A SECAS | especificar tal cual; validar en modernización | — |
-| A-08 | PENDIENTE | — | horizontes de negocio oficiales |
-| A-09 | PENDIENTE | documentar sin especificar | credenciales por defecto |
+| A-08 | INTENCIONAL* | especificar tal cual (acta P5) | ratificación real |
+| A-09 | INTENCIONAL* | restricción: solo local + checklist (acta P6) | ratificación real |
 | A-10 | BUG A SECAS | corregir en modernización | — |
 | A-11 | BUG A SECAS | declarar dependencias existentes | — |
 | A-12 | BUG A SECAS | caracterizar antes de tocar | — |
@@ -672,60 +689,55 @@ como 0 en lugar de "no calculable".
 | A-14 | ACCIDENTAL | documentar sin especificar | — |
 | A-15 | ACCIDENTAL | documentar sin especificar | — |
 | A-16 | ACCIDENTAL | documentar sin especificar | — |
-| A-17 | PENDIENTE | documentar sin especificar | fuente de verdad del esquema |
+| A-17 | INTENCIONAL* | Alembic fuente de verdad; db-sync deprecado (acta P7) | ratificación real |
 | A-18 | BUG A SECAS | especificar tal cual | ¿persistir eventos? |
-| A-19 | PENDIENTE | especificar tal cual | contrato de sesión con el proveedor LLM |
-| A-20 | PENDIENTE | especificar tal cual | política de ciudades desconocidas |
-| A-21 | PENDIENTE | especificar tal cual como restricción dura | responsable de regenerar `model.pkl` |
-| A-22 | PENDIENTE | especificar tal cual | identidad oficial del modelo |
+| A-19 | PENDIENTE | especificar tal cual (sesión por proceso aceptada, acta P3) | copia del contrato y coste del LLM |
+| A-20 | INTENCIONAL* | solo ciudades entrenadas soportadas (acta P8) | ratificación real |
+| A-21 | PENDIENTE | restricción dura (propietario: equipo datos/ML, acta P9) | nombre del responsable |
+| A-22 | INTENCIONAL* | provisional; versión real en modernización (acta P10) | ratificación real |
 | A-23 | ACCIDENTAL | documentar sin especificar | — |
-| A-24 | PENDIENTE | — | ¿tablas forecasts/models: requisito o descarte? |
+| A-24 | INTENCIONAL* | forecasts a spec futura; models retirada (acta P11) | ratificación real |
 | A-25 | ACCIDENTAL | limpieza en modernización | — |
 | A-26 | ACCIDENTAL | documentar sin especificar | — |
 | A-27 | ACCIDENTAL | especificar tal cual | — |
 | A-28 | ACCIDENTAL | especificar tal cual | — |
 | A-29 | ACCIDENTAL | especificar tal cual | — |
-| A-30 | PENDIENTE | — | alcance histórico del agente |
-| A-31 | PENDIENTE | especificar tal cual | ¿umbral de similitud del RAG? |
-| A-32 | PENDIENTE | documentar sin especificar | política de privacidad de logs |
+| A-30 | INTENCIONAL* | aceptado de momento; histórico en deseos (acta P12) | ratificación real |
+| A-31 | INTENCIONAL* | tal cual + umbral en modernización (acta P13) | ratificación real |
+| A-32 | INTENCIONAL* | logs internos; texto a DEBUG (acta P14) | ratificación real |
 | A-33 | BUG A SECAS | caracterizar y corregir en modernización | — |
 | A-34 | ACCIDENTAL | documentar sin especificar | — |
 | A-35 | ACCIDENTAL | documentar sin especificar | — |
-| A-36 | PENDIENTE | — | auditoría de dependencias y migración de runtime |
+| A-36 | INTENCIONAL* | auditoría trimestral + migrar 3.8 (acta P15) | primera auditoría real |
 | A-37 | ACCIDENTAL | resolver versiones al crear `tests/` | — |
 | A-38 | ACCIDENTAL | documentar sin especificar | — |
 | A-39 | ACCIDENTAL | especificar tal cual | ¿política de redondeo? |
 | A-40 | ACCIDENTAL | documentar sin especificar | — |
+| A-41 | PENDIENTE | alinear dataset con el mercado en el reentrenamiento de A-01 | alcance del reentrenamiento (España/Madrid) |
 
 ## Lista de clasificaciones PENDIENTES (agenda con el negocio)
 
-**No vacía: 13 entradas.** Debe quedar vacía antes de escribir las specs
-formales; es la agenda de la próxima conversación con el negocio:
+**Estado tras la ronda simulada (acta 2026-11-14): 3 entradas.** Las
+decisiones del acta son **propuestas** (respondente simulado); la
+ratificación real con nombre y fecha es requisito para vaciar la lista:
 
-1. **A-05** — ¿Servicio interno en red de confianza? ¿Se acepta exponer el
-   texto de excepciones? (desbloquea con testimonio: nombre y fecha)
-2. **A-08** — ¿Horizontes de negocio oficiales (¿solo 6/12/24?)? ¿Hay
-   consumidor para 48/72/168?
-3. **A-09** — ¿Credenciales `weather`/`weather` por defecto aceptadas?
-4. **A-17** — ¿`init.sql` o Alembic como fuente de verdad del esquema?
-5. **A-19** — ¿Sesión LLM por proceso o por usuario? ¿Contrato/coste del
-   endpoint OpenCode Go?
-6. **A-20** — ¿Política oficial de "ciudad desconocida → ceros"?
-7. **A-21** — ¿Responsable de regenerar `model.pkl` si se toca el wrapper?
-8. **A-22** — ¿Identidad md5+mtime aceptada como oficial?
-9. **A-24** — ¿Tablas `forecasts`/`models`: requisito pendiente o
-   descartado?
-10. **A-30** — ¿Preguntas históricas respondidas con tiempo actual es
-    aceptable?
-11. **A-31** — ¿Se requiere umbral mínimo de similitud en el RAG?
-12. **A-32** — ¿Política de privacidad/retención aplicable a los logs?
-13. **A-36** — ¿Responsable y fecha de auditoría de dependencias? ¿Se
-    aprueba salir de Python 3.8 en modernización?
+1. **A-19** — Copia del contrato y coste del endpoint OpenCode Go (la
+   sesión por proceso ya está aceptada en acta P3). Respondente: compras/
+   proveedor.
+2. **A-21** — Nombre concreto del responsable de regenerar `model.pkl` (el
+   rol sí está decidido: equipo de datos/ML, acta P9).
+3. **A-41** — ¿Se alinea el dataset (ciudades españolas prioritarias) y el
+   idioma de consulta con el mercado declarado, dentro del reentrenamiento
+   de A-01?
 
-Nota adicional: los tratamientos de A-01/A-02/A-04 (reentrenar o no;
-estrategia de split) también requieren decisión de negocio con responsable,
-aunque sus clasificaciones ya están cerradas con testigos CÓDIGO+DATOS.
+Fuera de la lista (clasificación cerrada, decisión abierta): **A-39**
+(política de redondeo, sin respuesta concluyente, acta §4).
 
-**Estado**: la lista PENDIENTE no está vacía → no se procede a specs
-formales hasta cerrarla con testimonios del negocio (nombre y fecha),
-conforme a la regla de dos de tres testigos.
+Además: **todas** las decisiones del acta requieren ratificación real
+(nombre y fecha) antes de que las clasificaciones INTENCIONAL computen
+definitivamente.
+
+**Estado**: la lista PENDIENTE no está vacía → es la agenda de la siguiente
+conversación con el negocio; no se procede a specs formales hasta vaciarla
+con testimonios reales (nombre y fecha), conforme a la regla de dos de tres
+testigos.

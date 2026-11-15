@@ -55,3 +55,19 @@ Ordenación: impacto de negocio × probabilidad, de mayor a menor.
   (263.040 filas, `data/historical_weather.csv`), condición de la que depende
   la corrección de los `shift(h)` del entrenamiento (R3). *¿Se ha validado la
   continuidad horaria del dataset?*
+
+---
+
+## Riesgos añadidos tras la ronda de entrevista (acta 2026-11-14)
+
+Testigo NEGOCIO de ambas entradas: `acta-entrevista-negocio.md` (entrevista
+**simulada**, respondente sin nombre real, 2026-11-14; ratificación real
+pendiente).
+
+| ID | Descripción | Evidencia | Impacto de negocio | Probabilidad |
+|---|---|---|---|---|
+| **R20** | Coste del LLM sin presupuesto formal: el negocio fija como condición que el gasto mensual no supere el doble del actual y que cada llamada se anote en el presupuesto de operación, pero no existe control ni registro de ese gasto en el sistema. | NEGOCIO: acta P3 (simulada); CÓDIGO: `opencode_go_llm.py:46-85` (sin métricas de coste ni registro por llamada), `settings.py:10-12` | Sobrecoste no detectado del servicio de lenguaje (partida operativa recurrente). | **Media** (crece con el uso del chat) |
+| **R21** | Comunicación de fiabilidad: el `test_score` 0.3713 del artefacto puede presentarse ante terceros como "fiabilidad del producto" siendo en realidad una métrica entre ciudades (A-01/A-02); el negocio lo prohíbe expresamente. | NEGOCIO: acta P1 (simulada); DATOS: OneHot con 8 ciudades y split por bloques (arqueología 2026-11-14); CÓDIGO: `train_model.py:165-171` | Decisiones de negocio o ventas tomadas sobre una métrica que no mide lo que dice medir. | **Media** (el número ya está publicado en logs y artefacto) |
+
+Estas entradas completan la tabla R1-R19; ordenación por impacto ×
+probabilidad no recalculada respecto a la tabla original.

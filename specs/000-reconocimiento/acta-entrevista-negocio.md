@@ -191,3 +191,26 @@ método, no una ratificación.
    vaciar la lista PENDIENTES.
 4. Solo entonces: `/speckit.specify` sobre la base documentada
    (especificación formal del comportamiento protegido).
+
+## 7. Pendiente para próxima ronda
+
+Preguntas sin respuesta concluyente y preguntas nuevas surgidas de las
+respuestas del negocio (agenda de la siguiente conversación; todas exigen
+respondente con nombre y fecha reales):
+
+1. **A-19** — Copia del contrato y coste del endpoint OpenCode Go
+   (respondente: compras/proveedor). La sesión por proceso quedó aceptada.
+2. **A-21** — Nombre concreto del responsable de regenerar `model.pkl`
+   (el rol quedó decidido: equipo de datos/ML).
+3. **A-39** — Política de redondeo en la presentación de predicciones
+   (no se preguntó; sin respuesta concluyente).
+4. **A-41 (nueva)** — ¿Se alinea el dataset (ciudades españolas
+   prioritarias) y el idioma de consulta con el mercado declarado, dentro
+   del reentrenamiento de A-01?
+5. **H13 (nueva)** — ¿La checklist de despliegue existe por escrito? ¿Quién
+   la ejecuta y quién la audita?
+6. **H14 (nueva)** — ¿Desde cuándo rige la prioridad de mercado
+   (España/Madrid)? ¿Hay documento estratégico que la respalde?
+7. **Ratificación real** — Todas las decisiones P1-P18 de esta acta simulada
+   requieren confirmación por persona identificada antes de sellar
+   clasificaciones INTENCIONAL.
