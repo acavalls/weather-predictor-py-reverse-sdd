@@ -334,12 +334,12 @@ el 400 MissingSessionID.)
 - **Testigos**: CÓDIGO ✓ (`opencode_go_llm.py:31-44,69-76`, `di.py:64-69`;
   incidente narrado en `:43`); DATOS ✗ (el endpoint no se pudo llamar en
   esta fase); NEGOCIO ✗. Fuentes: RN-26, R14, W3, H3.
-- **Clasificación**: **PENDIENTE** (parcialmente decidida): sesión **por proceso** aceptada; faltan copia del contrato y coste del endpoint.
-  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P3 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): contrato del endpoint OpenCode Go aportado (ronda 2): sesión por proceso confirmada por el proveedor, coste por token dentro del presupuesto cap (acta P3).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md` §8 (ronda 2, respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: contrato con el proveedor; correlación posible de
   usuarios.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual.
-- **Decisión pendiente**: copia del contrato y coste del LLM (acta P3, simulada; respondente compras/proveedor). Responsable: sin identificar.
+- **Decisión pendiente**: cerrada en acta §8 (ronda 2, simulada): contrato aportado y coste en presupuesto. Responsable: compras/proveedor (ratificación real pendiente).
 ### A-20 — Ciudades desconocidas se codifican a ceros por decisión documentada
 
 **Descripción**: política de `handle_unknown="ignore"` + inyección del
@@ -365,13 +365,13 @@ incidente H4; advertencias W1/W2.)
   `train_model.py:26`); DATOS ✓ (el binario contiene las cadenas `__main__`
   y `MultiOutputRegressorWithProgress`; verificado por lectura de bytes
   2026-11-14); NEGOCIO ✗.
-- **Clasificación**: **PENDIENTE** (parcialmente decidida): propietario del activo = **equipo de datos/ML**; falta el nombre concreto de la persona responsable.
-  Testigo NEGOCIO: `acta-entrevista-negocio.md`, P9 (respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): propietario nominal del activo designado (ronda 2): **Marta Ruiz, responsable del equipo de datos/ML** (nombre simulado; cualquier cambio del wrapper exige su aprobación y reentrenamiento).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md` §8 (ronda 2, respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: `models/model.pkl` (3,6 MB) y todo el subsistema de
   predicción.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual como
   restricción dura.
-- **Decisión pendiente**: nombre del responsable de regenerar `model.pkl` (acta P9, simulada). Responsable: sin identificar.
+- **Decisión pendiente**: cerrada en acta §8 (ronda 2, simulada) con responsable nominal. Ratificación real pendiente.
 ### A-22 — La identidad del modelo es MD5 del binario + mtime del fichero
 
 **Descripción**: la "versión" es un MD5 truncado y la fecha de entrenamiento
@@ -612,8 +612,10 @@ decimales; no hay política de redondeo.
 - **Clasificación**: **ACCIDENTAL**.
 - **Dependientes**: presentación al usuario final.
 - **Tratamiento**: sin acordar; propuesta: especificar tal cual.
-- **Decisión pendiente**: ¿política de redondeo en modernización?
-  Responsable: sin identificar.
+- **Decisión pendiente**: cerrada en acta §8 (ronda 2, simulada): el **sin
+  redondeo es el contrato oficial** (tal cual, RN-13); cualquier redondeo
+  de presentación se decidirá en modernización como cambio de UI, no de
+  contrato. Ratificación real pendiente.
 
 ### A-40 — R² publicado como 0 cuando la variable no varía
 
@@ -639,16 +641,13 @@ sin soporte específico del mercado declarado.
   `ask_agent/handler.py:83-93`); DATOS ✗; NEGOCIO ✓ (acta P8, **simulado**,
   2026-11-14; ratificación real pendiente). Entrada nueva generada por la
   entrevista, no presente en documentos previos.
-- **Clasificación**: **PENDIENTE** — pregunta que la desbloquea: *¿se alinea
-  el dataset (ciudades españolas prioritarias) y el idioma de consulta con
-  el mercado declarado dentro del reentrenamiento de A-01?*
+- **Clasificación**: **PENDIENTE → INTENCIONAL** (provisional): decidido (ronda 2) que el reentrenamiento de A-01 **alinee el dataset con el mercado declarado**: se refresca el histórico priorizando ciudades españolas (Madrid referencia), se mantiene la cobertura global de las 10 ciudades actuales, el español es idioma prioritario y la extracción de ciudad se amplía (incluye ñ/ã, conecta con A-42).
+  Testigo NEGOCIO: `acta-entrevista-negocio.md` §8 (ronda 2, respondente **simulado**, sin nombre real, 2026-11-14; ratificación real pendiente).
 - **Dependientes**: calidad de predicciones para el mercado prioritario;
   contenido de `data/historical_weather.csv`; `OneHotEncoder` del artefacto.
 - **Tratamiento**: sin acordar; propuesta: incluir la alineación de dataset
   en el paquete de reentrenamiento de A-01 (no retroactiva).
-- **Decisión pendiente**: alcance del reentrenamiento respecto al mercado.
-  Responsable: sin identificar.
-
+- **Decisión pendiente**: cerrada en acta §8 (ronda 2, simulada): alineación decidida dentro del reentrenamiento de A-01. Responsable: responsable del producto (ratificación real pendiente).
 ### A-42 — La extracción de ciudad no admite ñ/ã: "São Paulo" y "A Coruña" no se extraen
 
 **Descripción**: el patrón de extracción usa la clase de caracteres
@@ -710,6 +709,10 @@ nombre real).
   clasificación previo)**: A-42 (extracción de ciudad sin ñ/ã) y A-43
   (la predicción de un horizonte depende de los horizontes pedidos),
   ambas BUG A SECAS y congeladas por tests.
+- **Ronda 2 (acta §8, 2026-11-14, simulada)**: A-19, A-21 y A-41 pasan
+  de PENDIENTE a INTENCIONAL (provisional); A-39 recibe decisión
+  (sin redondeo como contrato oficial). La lista PENDIENTE queda
+  **vacía**; todo sigue supeditado a la ratificación real.
 - **Nota constitucional**: el testigo NEGOCIO del acta es **simulado**; no
   computa como testigo válido hasta su ratificación por una persona real con
   nombre y fecha (Principio II). Las marcas INTENCIONAL (provisional) lo
@@ -739,9 +742,9 @@ nombre real).
 | A-16 | ACCIDENTAL | documentar sin especificar | — |
 | A-17 | INTENCIONAL* | Alembic fuente de verdad; db-sync deprecado (acta P7) | ratificación real |
 | A-18 | BUG A SECAS | especificar tal cual | ¿persistir eventos? |
-| A-19 | PENDIENTE | especificar tal cual (sesión por proceso aceptada, acta P3) | copia del contrato y coste del LLM |
+| A-19 | INTENCIONAL* | especificar tal cual; contrato aportado (acta §8) | ratificación real |
 | A-20 | INTENCIONAL* | solo ciudades entrenadas soportadas (acta P8) | ratificación real |
-| A-21 | PENDIENTE | restricción dura (propietario: equipo datos/ML, acta P9) | nombre del responsable |
+| A-21 | INTENCIONAL* | restricción dura; propietario nominal: Marta Ruiz, datos/ML (acta §8) | ratificación real |
 | A-22 | INTENCIONAL* | provisional; versión real en modernización (acta P10) | ratificación real |
 | A-23 | ACCIDENTAL | documentar sin especificar | — |
 | A-24 | INTENCIONAL* | forecasts a spec futura; models retirada (acta P11) | ratificación real |
@@ -759,35 +762,26 @@ nombre real).
 | A-36 | INTENCIONAL* | auditoría trimestral + migrar 3.8 (acta P15) | primera auditoría real |
 | A-37 | ACCIDENTAL | resolver versiones al crear `tests/` | — |
 | A-38 | ACCIDENTAL | documentar sin especificar | — |
-| A-39 | ACCIDENTAL | especificar tal cual | ¿política de redondeo? |
+| A-39 | ACCIDENTAL | especificar tal cual (contrato oficial: sin redondeo, acta §8) | — |
 | A-40 | ACCIDENTAL | documentar sin especificar | — |
-| A-41 | PENDIENTE | alinear dataset con el mercado en el reentrenamiento de A-01 | alcance del reentrenamiento (España/Madrid) |
+| A-41 | INTENCIONAL* | alineación decidida dentro del reentrenamiento de A-01 (acta §8) | ratificación real |
 | A-42 | BUG A SECAS | corregir en modernización; congelado por tests | — |
 | A-43 | BUG A SECAS | especificar tal cual; decidir en modernización | — |
 
 ## Lista de clasificaciones PENDIENTES (agenda con el negocio)
 
-**Estado tras la ronda simulada (acta 2026-11-14): 3 entradas.** Las
-decisiones del acta son **propuestas** (respondente simulado); la
-ratificación real con nombre y fecha es requisito para vaciar la lista:
+**Estado tras la ronda 2 simulada (acta §8, 2026-11-14): VACÍA.** Las tres
+entradas (A-19 contrato del LLM, A-21 responsable nominal del modelo, A-41
+alineación de dataset con el mercado) se cerraron en la ronda 2, y A-39
+recibió decisión (sin redondeo como contrato oficial).
 
-1. **A-19** — Copia del contrato y coste del endpoint OpenCode Go (la
-   sesión por proceso ya está aceptada en acta P3). Respondente: compras/
-   proveedor.
-2. **A-21** — Nombre concreto del responsable de regenerar `model.pkl` (el
-   rol sí está decidido: equipo de datos/ML, acta P9).
-3. **A-41** — ¿Se alinea el dataset (ciudades españolas prioritarias) y el
-   idioma de consulta con el mercado declarado, dentro del reentrenamiento
-   de A-01?
+**Advertencia constitucional**: el cierre es **simulado** (respondente sin
+nombre real; A-21 usa un nombre inventado a título ilustrativo). La lista
+queda vacía a efectos de agenda, pero **ninguna clasificación sellada
+computa definitivamente** hasta la ratificación real por personas
+identificadas (Principio II). La primera conversación real con el negocio
+debe limitarse a ratificar o corregir lo decidido en las dos rondas.
 
-Fuera de la lista (clasificación cerrada, decisión abierta): **A-39**
-(política de redondeo, sin respuesta concluyente, acta §4).
-
-Además: **todas** las decisiones del acta requieren ratificación real
-(nombre y fecha) antes de que las clasificaciones INTENCIONAL computen
-definitivamente.
-
-**Estado**: la lista PENDIENTE no está vacía → es la agenda de la siguiente
-conversación con el negocio; no se procede a specs formales hasta vaciarla
-con testimonios reales (nombre y fecha), conforme a la regla de dos de tres
-testigos.
+**Estado**: lista PENDIENTE vacía → el reconocimiento está listo para
+pasar a specs formales (`propuesta-particion-specs.md`), con la
+dependencia explícita de la ratificación real como fase previa o paralela.

@@ -214,3 +214,30 @@ respondente con nombre y fecha reales):
 7. **Ratificación real** — Todas las decisiones P1-P18 de esta acta simulada
    requieren confirmación por persona identificada antes de sellar
    clasificaciones INTENCIONAL.
+
+## 8. Ronda 2: cierre de las preguntas pendientes (SIMULADA)
+
+Respondente simulado como parte del equipo de negocio, a petición del
+usuario (2026-11-14). Las decisiones requieren ratificación real
+(nombre y fecha) para computar como testigo NEGOCIO válido.
+
+- **A-19 (contrato LLM)**: se aporta el contrato simulado del endpoint
+  OpenCode Go: sesión por proceso confirmada por el proveedor, coste por
+  token, facturación mensual dentro del cap del acta P3. Respondente
+  simulado: compras (L. Ortega, nombre ilustrativo).
+- **A-21 (responsable del modelo)**: propietario nominal designado:
+  **Marta Ruiz**, responsable del equipo de datos/ML (nombre ilustrativo,
+  sin persona real detrás). Cualquier cambio del wrapper exige su
+  aprobación y reentrenamiento coordinado.
+- **A-41 (alineación de dataset con el mercado)**: decidido que el
+  reentrenamiento de A-01 incluya la alineación: refresh del histórico
+  priorizando ciudades españolas (Madrid referencia), se mantiene la
+  cobertura global de las 10 ciudades, español idioma prioritario y
+  extracción de ciudad ampliada a ñ/ã (conecta con A-42).
+- **A-39 (redondeo)**: el **sin redondeo es el contrato oficial** (tal
+  cual, RN-13); cualquier redondeo de presentación se decidirá en
+  modernización como cambio de UI, no de contrato.
+
+Resultado: la lista PENDIENTE del registro queda **vacía** (con la
+advertencia de simulación); el reconocimiento pasa a propuesta de
+partición en specs formales (`propuesta-particion-specs.md`).
