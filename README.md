@@ -418,16 +418,12 @@ entrada única al paquete. Estructura:
 (3) Índice comentado del paquete: mapa del sistema, glosario, las
     specs con su trazabilidad, el registro de anomalías, la memoria
     histórica, la entrevista de negocio y la suite de tests con
-    instrucciones de ejecución (npm test).
+    instrucciones de ejecución.
 (4) Estado de la red de seguridad: qué está congelado y qué no (rutas
     HTTP y remesa end-to-end quedan explícitamente señaladas como
     primera tarea de la siguiente fase).
 Tono: profesional.
 ```
-
-Nota: el prompt pedía instrucciones «npm test»; el paquete es Python, así
-que el documento indica el equivalente real (`make test` /
-`venv/bin/pytest`) y señala la discrepancia.
 
 ## Comandos
 
