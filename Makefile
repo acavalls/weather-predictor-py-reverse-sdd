@@ -22,6 +22,12 @@ check:
 test:
 	PYTHONPATH=. venv/bin/pytest
 
+# Regenera el golden master del flujo central (/predict). SOLO con decisión
+# de negocio documentada: ver tests/golden_master/LEEME.md.
+.PHONY: golden-master
+golden-master:
+	PYTHONPATH=. venv/bin/python scripts/generate_golden_master.py
+
 test-coverage:
 	PYTHONPATH=. venv/bin/pytest --cov=src --cov-report=term-missing
 

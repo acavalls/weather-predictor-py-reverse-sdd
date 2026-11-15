@@ -649,6 +649,50 @@ sin soporte específico del mercado declarado.
 - **Decisión pendiente**: alcance del reentrenamiento respecto al mercado.
   Responsable: sin identificar.
 
+### A-42 — La extracción de ciudad no admite ñ/ã: "São Paulo" y "A Coruña" no se extraen
+
+**Descripción**: el patrón de extracción usa la clase de caracteres
+`[A-ZÁÉÍÓÚÜ][a-záéíóúü]+`, que omite ã/ñ (y acentos como ã). Como
+consecuencia, la ciudad de São Paulo —que SÍ está en el dataset y en el
+modelo— nunca se extrae de una pregunta del chat, y ciudades españolas con
+ñ ("A Coruña") tampoco.
+
+- **Testigos**: CÓDIGO ✓ (`ask_agent/handler.py:83-88`, clase de caracteres
+  sin ñ/ã); DATOS ✓ (ejecución de caracterización 2026-11-14:
+  "Pronóstico for São Paulo" → None; "¿Qué tiempo hará en A Coruña?" →
+  None; "for Mexico City" → "Mexico City"); NEGOCIO ✗. Entrada NUEVA
+  generada por la caracterización (no estaba en documentos previos).
+- **Clasificación**: **BUG A SECAS** (omisión silenciosa del patrón; nadie
+  la documenta; contrasta con RN-22).
+- **Dependientes**: el flujo conversacional para São Paulo (una de las
+  ciudades del dataset, ver A-02) y para ciudades con ñ/ã.
+- **Tratamiento**: sin acordar; propuesta: corregir en modernización;
+  mientras tanto congelado por tests
+  (`tests/test_rn22_city_extraction.py`).
+- **Decisión pendiente**: ninguna técnica.
+
+### A-43 — La predicción de un horizonte depende de los horizontes que se pidan
+
+**Descripción**: el extractor solo genera lags para los horizontes
+solicitados; los lags de los horizontes no pedidos entran a 0.0 en el
+alineado (RN-07). Resultado: la predicción "a 6 horas" cambia según si se
+pidió solo 6, 6+12+24 o 6+999, aunque las condiciones y el momento sean
+idénticos (18,18 °C vs 4,25 °C en Madrid, ejecución real 2026-11-14).
+
+- **Testigos**: CÓDIGO ✓ (`feature_extractor.py:74-77` bucle por horizontes
+  + `local_predictor.py:186-192` alineado a 0.0); DATOS ✓ (caracterización
+  2026-11-14: `[6]` → 4,250787940828976 °C; `[6,12,24]` →
+  18,178030264044768 °C; `[6,999]` → 4,250787940828976 °C, mismos datos);
+  NEGOCIO ✗. Entrada NUEVA generada por la caracterización.
+- **Clasificación**: **BUG A SECAS** (nadie lo documenta; el contrato
+  "predicción a 6 h" no debería depender del resto de la lista).
+- **Dependientes**: clientes de `/predict` con listas de horizontes
+  parciales; el golden master (`tests/golden_master/master.json`, casos
+  `madrid_solo_h6` y `madrid_horizontes_mixtos`).
+- **Tratamiento**: sin acordar; propuesta: especificar tal cual (queda
+  congelado) y decidir en modernización.
+- **Decisión pendiente**: ninguna técnica.
+
 ---
 
 ## Cambios de clasificación tras la ronda de entrevista (acta 2026-11-14)
@@ -662,6 +706,10 @@ nombre real).
 - **Transición parcial dentro de la entrada**: A-05 (la exposición del texto
   de excepciones baja a BUG A SECAS), A-24 (split forecasts/models).
 - **Siguen PENDIENTE**: A-19, A-21 (parcialmente decididas), **A-41 (nueva)**.
+- **Entradas nuevas de la caracterización (2026-11-14, sin cambio de
+  clasificación previo)**: A-42 (extracción de ciudad sin ñ/ã) y A-43
+  (la predicción de un horizonte depende de los horizontes pedidos),
+  ambas BUG A SECAS y congeladas por tests.
 - **Nota constitucional**: el testigo NEGOCIO del acta es **simulado**; no
   computa como testigo válido hasta su ratificación por una persona real con
   nombre y fecha (Principio II). Las marcas INTENCIONAL (provisional) lo
@@ -714,6 +762,8 @@ nombre real).
 | A-39 | ACCIDENTAL | especificar tal cual | ¿política de redondeo? |
 | A-40 | ACCIDENTAL | documentar sin especificar | — |
 | A-41 | PENDIENTE | alinear dataset con el mercado en el reentrenamiento de A-01 | alcance del reentrenamiento (España/Madrid) |
+| A-42 | BUG A SECAS | corregir en modernización; congelado por tests | — |
+| A-43 | BUG A SECAS | especificar tal cual; decidir en modernización | — |
 
 ## Lista de clasificaciones PENDIENTES (agenda con el negocio)
 

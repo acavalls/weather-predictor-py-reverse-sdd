@@ -1,0 +1,479 @@
+{
+  "_meta": {
+    "descripcion": "Golden master del flujo central (/predict) del sistema tal cual es",
+    "excluido": "predicted_at (depende del reloj real del predictor)",
+    "modelo_md5": "b59e0918",
+    "reloj": "congelado (ver scripts/generate_golden_master.py)"
+  },
+  "casos": {
+    "atlantis_inexistente": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "atlantis_inexistente",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Atlantis",
+      "latitude": 0.0,
+      "location_name": "Atlantis",
+      "longitude": 0.0,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.92908951903441,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "berlin_conocida": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "berlin_conocida",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Berlin",
+      "latitude": 52.52,
+      "location_name": "Berlin",
+      "longitude": 13.405,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 51.51052785531667,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.92908951903441,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 58.66355272896141,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.647851109474843,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 54.95773247816155,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "madrid_chat_ceros": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "madrid_chat_ceros",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 48.50447068388855,
+          "precipitation": -0.014386998441271752,
+          "relative_humidity_2m": 29.747943011434593,
+          "surface_pressure": 929.7921341803107,
+          "temperature_2m": 3.3505347422853857,
+          "wind_speed_10m": 7.897213740132358
+        },
+        "12": {
+          "cloud_cover": 45.283509102441904,
+          "precipitation": 0.010864324014229662,
+          "relative_humidity_2m": 32.33349591947554,
+          "surface_pressure": 980.3203412449012,
+          "temperature_2m": 2.135927431470792,
+          "wind_speed_10m": 8.097017547238874
+        },
+        "24": {
+          "cloud_cover": 45.36602278097597,
+          "precipitation": 0.022501343520231816,
+          "relative_humidity_2m": 25.40235171386163,
+          "surface_pressure": 971.0034630602046,
+          "temperature_2m": 3.034136068272958,
+          "wind_speed_10m": 7.845763093834788
+        }
+      }
+    },
+    "madrid_estandar": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "madrid_estandar",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.13257982269474,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "madrid_extremos_fisicos": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "madrid_extremos_fisicos",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 55.47231218353169,
+          "precipitation": 0.1086392608240693,
+          "relative_humidity_2m": 30.203269124538327,
+          "surface_pressure": 856.6881286850393,
+          "temperature_2m": 0.5609809055723459,
+          "wind_speed_10m": 7.934008890279525
+        },
+        "12": {
+          "cloud_cover": 54.33728794503961,
+          "precipitation": 0.36632697055428104,
+          "relative_humidity_2m": 31.235661060368727,
+          "surface_pressure": 907.0388919193855,
+          "temperature_2m": -3.997135644629096,
+          "wind_speed_10m": 7.7279464401302755
+        },
+        "24": {
+          "cloud_cover": 47.85470608666109,
+          "precipitation": 0.18164624208128105,
+          "relative_humidity_2m": 25.68875530327324,
+          "surface_pressure": 895.0582748898457,
+          "temperature_2m": -1.3831412763034014,
+          "wind_speed_10m": 7.4405526980932555
+        }
+      }
+    },
+    "madrid_feb29_bisiesto": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "madrid_feb29_bisiesto",
+        "timestamp": "2024-02-29T00:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.13257982269474,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "madrid_fin_de_anio": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "madrid_fin_de_anio",
+        "timestamp": "2023-12-31T23:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.13257982269474,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "madrid_horizontes_mixtos": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          999
+        ],
+        "id": "madrid_horizontes_mixtos",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 37.61445178876187,
+          "precipitation": -0.015866410011363557,
+          "relative_humidity_2m": 37.74789699433182,
+          "surface_pressure": 932.0507186032787,
+          "temperature_2m": 4.250787940828976,
+          "wind_speed_10m": 7.562455208125003
+        }
+      }
+    },
+    "madrid_sabado": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "madrid_sabado",
+        "timestamp": "2024-03-16T14:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.13257982269474,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "madrid_solo_h6": {
+      "_meta_caso": {
+        "horizons": [
+          6
+        ],
+        "id": "madrid_solo_h6",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Madrid",
+      "latitude": 40.4168,
+      "location_name": "Madrid",
+      "longitude": -3.7038,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 37.61445178876187,
+          "precipitation": -0.015866410011363557,
+          "relative_humidity_2m": 37.74789699433182,
+          "surface_pressure": 932.0507186032787,
+          "temperature_2m": 4.250787940828976,
+          "wind_speed_10m": 7.562455208125003
+        }
+      }
+    },
+    "sao_paulo_fuera_onehot": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "sao_paulo_fuera_onehot",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "São Paulo",
+      "latitude": -23.5505,
+      "location_name": "São Paulo",
+      "longitude": -46.6333,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.92908951903441,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    },
+    "tokyo_fuera_onehot": {
+      "_meta_caso": {
+        "horizons": [
+          6,
+          12,
+          24
+        ],
+        "id": "tokyo_fuera_onehot",
+        "timestamp": "2024-03-15T14:00:00+00:00"
+      },
+      "city": "Tokyo",
+      "latitude": 35.6762,
+      "location_name": "Tokyo",
+      "longitude": 139.6503,
+      "model_version": "b59e0918",
+      "predictions": {
+        "6": {
+          "cloud_cover": 47.0890500894344,
+          "precipitation": 0.0019082849948656555,
+          "relative_humidity_2m": 60.92908951903441,
+          "surface_pressure": 929.9966631445844,
+          "temperature_2m": 18.178030264044768,
+          "wind_speed_10m": 9.318405175006339
+        },
+        "12": {
+          "cloud_cover": 52.373835794547766,
+          "precipitation": 0.022144072633012983,
+          "relative_humidity_2m": 62.9536194010657,
+          "surface_pressure": 980.5927388069898,
+          "temperature_2m": 18.682574870184492,
+          "wind_speed_10m": 10.498974004230217
+        },
+        "24": {
+          "cloud_cover": 47.53461701388228,
+          "precipitation": 0.034368230428695266,
+          "relative_humidity_2m": 55.07452711732383,
+          "surface_pressure": 971.0743801325552,
+          "temperature_2m": 14.805647727026313,
+          "wind_speed_10m": 8.956829409294269
+        }
+      }
+    }
+  }
+}
