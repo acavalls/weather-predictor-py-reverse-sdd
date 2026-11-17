@@ -240,6 +240,24 @@ mayor lógica; el resultado queda marcado como simulado y pendiente de
 ratificación real):
 
 ```text
+Simulemos la entrevista de negocio. Prepara tú las preguntas a partir de
+specs/000-reconocimiento/: las clasificaciones PENDIENTES y DUDOSAS del
+registro de anomalías, las contradicciones documentadas y las preguntas
+abiertas de la memoria histórica. Formúlalas como preguntas decidibles:
+contexto mínimo en lenguaje no técnico, ejemplo con números reales,
+respuesta por sí/no o elección entre opciones, sin sugerir la respuesta;
+ordénalas de más a menos impacto económico. Tú eres el consultor; yo haré
+de cliente y responderé en el papel de la persona del negocio que
+corresponda (dime a quién va dirigida cada una). Una pregunta por turno;
+si mi respuesta no decide la cuestión, repregunta o anótala como "sin
+respuesta concluyente"; apunta toda condición, prohibición o información
+nueva que suelte aunque no la hayas preguntado. Al terminar, vuelca tus
+notas, genera el acta.
+```
+
+Opcional:
+
+```text
 Responde tu todas las preguntas como si fueras el cliente con la
 respuesta que tenga más lógica y finaliza el acta de la reunión.
 ```
